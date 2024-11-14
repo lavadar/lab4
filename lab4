@@ -1,0 +1,36 @@
+Создадим файл data.json:
+
+[
+    {"Имя": "Иван", "Возраст": 30, "Профессия": "учитель", "Город": "Санкт-Петербург"},
+    {"Имя": "Анна", "Возраст": 25, "Профессия": "инженер", "Город": "Москва"},
+    {"Имя": "Максим", "Возраст": 27, "Профессия": "программист", "Город": "Екатеринбург"},
+    {"Имя": "Ольга", "Возраст": 26, "Профессия": "дизайнер", "Город": "Краснодар"},
+    {"Имя": "Елена", "Возраст": 28, "Профессия": "врач", "Город": "Новосибирск"}
+]
+
+
+Реализуем программу на Python для конвертации JSON в XML:
+
+
+import json
+import xml.etree.ElementTree as ET
+
+# Чтение JSON файла
+with open('data.json', 'r', encoding='utf-8') as json_file:
+    data = json.load(json_file)
+
+# Создание XML корня
+root = ET.Element("people")
+
+# Заполнение XML
+for person in data:
+    person_element = ET.SubElement(root, "person")
+    for key, value in person.items():
+        child = ET.SubElement(person_element, key)
+        child.text = str(value)
+
+# Запись в XML файл
+tree = ET.ElementTree(root)
+tree.write("data.xml", encoding='utf-8', xml_declaration=True)
+
+print("Конвертация завершена, файл сохранен как data.xml")
